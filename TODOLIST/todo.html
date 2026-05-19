@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nude To-Do App</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body{
+      background: #f5ebe0;
+      min-height: 100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
+
+    .container{
+      width:100%;
+      max-width:500px;
+      background:#fffaf5;
+      padding:30px;
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    h1{
+      text-align:center;
+      color:#8b6f5a;
+      margin-bottom:25px;
+      font-size:2rem;
+    }
+
+    .input-section{
+      display:flex;
+      gap:10px;
+      margin-bottom:25px;
+    }
+
+    .input-section input{
+      flex:1;
+      padding:14px;
+      border:none;
+      border-radius:12px;
+      background:#efe1d1;
+      color:#5e4b3c;
+      font-size:1rem;
+      outline:none;
+    }
+
+    .input-section button{
+      padding:14px 20px;
+      border:none;
+      border-radius:12px;
+      background:#d6b89c;
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .input-section button:hover{
+      background:#c8a789;
+    }
+
+    ul{
+      list-style:none;
+    }
+
+    li{
+      background:#efe1d1;
+      padding:15px;
+      border-radius:12px;
+      margin-bottom:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      animation:fadeIn 0.3s ease;
+    }
+
+    li.completed span{
+      text-decoration:line-through;
+      opacity:0.6;
+    }
+
+    .task-buttons{
+      display:flex;
+      gap:8px;
+    }
+
+    .complete-btn,
+    .delete-btn{
+      border:none;
+      padding:8px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      color:white;
+      font-size:0.8rem;
+      transition:0.3s;
+    }
+
+    .complete-btn{
+      background:#a67c52;
+    }
+
+    .complete-btn:hover{
+      background:#8d6844;
+    }
+
+    .delete-btn{
+      background:#c97c5d;
+    }
+
+    .delete-btn:hover{
+      background:#b46749;
+    }
+
+    @keyframes fadeIn{
+      from{
+        opacity:0;
+        transform:translateY(10px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    @media(max-width:600px){
+
+      .container{
+        padding:20px;
+      }
+
+      h1{
+        font-size:1.6rem;
+      }
+
+      .input-section{
+        flex-direction:column;
+      }
+
+      .input-section button{
+        width:100%;
+      }
+
+      li{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+      }
+
+      .task-buttons{
+        width:100%;
+        justify-content:flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>My To-Do List</h1>
+
+    <div class="input-section">
+      <input type="text" id="taskInput" placeholder="Enter a task..." />
+      <button onclick="addTask()">Add</button>
+    </div>
+
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    const taskInput = document.getElementById("taskInput");
+    const taskList = document.getElementById("taskList");
+
+    function addTask() {
+      const taskText = taskInput.value.trim();
+
+      if(taskText === ""){
+        alert("Please enter a task.");
+        return;
+      }
+
+      const li = document.createElement("li");
+
+      li.innerHTML = `
+        <span>${taskText}</span>
+
+        <div class="task-buttons">
+          <button class="complete-btn">Done</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      `;
+
+      const completeBtn = li.querySelector(".complete-btn");
+      const deleteBtn = li.querySelector(".delete-btn");
+
+      completeBtn.addEventListener("click", () => {
+        li.classList.toggle("completed");
+      });
+
+      deleteBtn.addEventListener("click", () => {
+        li.remove();
+      });
+
+      taskList.appendChild(li);
+
+      taskInput.value = "";
+    }
+
+    taskInput.addEventListener("keypress", function(e){
+      if(e.key === "Enter"){
+        addTask();
+      }
+    });
+  </script>
+
+</body>
+</html>
